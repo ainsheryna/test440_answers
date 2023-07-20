@@ -1,0 +1,26 @@
+import socket
+
+print ('waiting for connection')
+
+host = input ('enter server ip address:')
+port = int(input('enter server port number:'))
+
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+server_address = (host, port)
+
+try:
+ client_socket.connect(server_address)
+except socket.error as e:
+ print(str(e))
+ exit()
+
+user_input = input ('enter text:')
+
+client_socket.sendall(user_input.encode('utf-8'))
+print('text sent to the server')
+
+modified_text = client_socket.recv(1024).decode('utf-8')
+print('modifies text received from the server:', modified_text)
+
+client_socket.close()
